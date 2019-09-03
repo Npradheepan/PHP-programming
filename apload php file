@@ -1,0 +1,30 @@
+<form action="" enctype="multipart/form-date" method="post" id="frm">
+    <h2>Upload Multiple Files Using PHP</h2>
+    <label for="apload"> Select the file to Upload:</label>
+    <input id="file" name="file[]" type="file" Multiple="multiple"/>
+    <p><input type="submit" name="submit"n value="submet"></p>
+</form>
+<?php
+if(isset($_POST['submit']))
+{
+    if(count($_FILE['file']['name'])>0)
+    {
+        for($i=0;Si<count($_FILE['file']['name']);$i++)
+        {
+            $tmp =$_FILES['file']['tmp_name'][$i];
+            if($tmp!=" ")
+            {
+                $name=$_FILES['file']['name'][$i];
+                $path="Files/".$_FILES['file']['name'][$i];
+                if(move_uploaded_file($tmp,$path))
+                {
+                    $files []=$name;
+                }
+            }
+        }
+    }
+    if(is_array($files))
+    {
+        echo "uploaded Successufully";
+    }
+}

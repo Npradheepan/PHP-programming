@@ -1,0 +1,14 @@
+<?php
+    
+    $con = new mysqli('localhost', 'root', 'root', 'program', '8889');
+    
+    if ($con->connect_errno) 
+    {   
+
+        die("Connection failed: " . $con->connect_error);
+    } 
+    else
+    {
+        echo " Database Connected";
+    }    
+?>

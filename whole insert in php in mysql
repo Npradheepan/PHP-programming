@@ -1,0 +1,68 @@
+<?php
+    
+    $con = new mysqli('localhost', 'root', 'root', 'customers', '8889');
+    
+    if ($con->connect_errno) 
+    {   
+
+        die("Connection failed: " . $con->connect_error);
+    }    
+?>
+
+ <html>
+ <body>
+        <form action="customer.php" method="POST">
+            <table>
+                <tr>
+                    <td>
+                        <label for="name">Name</label>
+                        <td> 
+                            <input type="text" name="name">
+                        </td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="age">Age</label>
+                        <td> 
+                            <input type="text" name="age">
+                        </td> 
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="submit" value="save">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <?php 
+    if(isset($_POST['submit']))
+    {
+        $name=$_POST['name'];
+        $age=$_POST['age'];
+        if($name !="" && $age !="" )
+        {
+            $sql = "INSERT INTO user(uname,uage) VALUES ('$name',$age)";
+
+            if($con->query($sql))
+            {
+                echo "Data Stored";
+            }
+            else
+            {
+                echo "Insert Data Failed";
+            }
+        }
+        else
+        {
+            echo "All Failed Required";
+        }
+    }
+    else
+    {
+        echo "Please Enter All The Datas";
+    }
+    ?>
+ </body>
+ </html>

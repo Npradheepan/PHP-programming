@@ -1,0 +1,36 @@
+index.html
+-----------
+<?php
+  include_once 'include/dbh.inc.php'; 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+       <?php
+        $sql = "SELECT * FROM Employee;";
+        $result = mysqli_quary($conn, $sql);
+        $resultcheck = mysqli_num_row($result);
+        if($resultcheck > 0) {
+            while($row = mysqli_fetch_assoc($result)){
+                echo $row['Employee_id'];
+            }
+        }
+
+       ?>
+</body>
+</html>  
+
+dbh.inc.php------------------file----------------------------------------------------------------------------------
+<?php
+$dbServername="localhost:8080/";
+$dbusername ="root";
+$dbPassword ="";
+$dbName ="Employee";
+
+$conn =mysqli_Connect($dbServername,$dbusername,$dbPassword,$dbPassword);
+?>

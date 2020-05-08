@@ -1,0 +1,49 @@
+<?php
+  include_once 'dbh.inc.php'; 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<form action="dbh.inc.php" method="POST">
+<input type="text" name="id" placeholder ="ID">
+<br>
+<input type="text" name="name" placeholder ="Name">
+<br>
+<input type="text" name="address" placeholder ="Address">
+<br>
+<input type="text" name="email" placeholder ="Email">
+<br>
+<input type="text" name="salary" placeholder ="Salary">
+<br>
+<button type="submit" name="submit">Sing up</button>
+</form>
+    
+   
+</body>
+</html>  
+----------------------------
+    <?php
+    $dbServername ="localhost";
+    $dbUsername ="root";
+    $dbPassword ="";
+    $dbName ="Employee";
+
+    $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword , $dbName );
+    ?>
+    ----------------------------
+    <?php
+include_once 'dbh.inc.php';
+
+$name  = $_POST['name'];
+$address  = $_POST['address'];
+$email  = $_POST['email'];
+$salary  = $_POST['salary'];
+
+$sql = "INSERT INTO Employee(name,address,email,salary) VALUES('name', 'address', 'email',salary);";
+        $result = mysqli_query($conn, $sql);
+        header("Location:../index.php?signup =success");

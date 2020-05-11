@@ -1,0 +1,207 @@
+php root(dbh.inc.php)
+----------------------------------------------------------------------------------------------------------------------------
+<?php
+$dbServername ="localhost";
+$dbUsername ="root";
+$dbPassword ="";
+$dbName ="loggingsysterm";
+
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword,$dbName);
+
+
+php(signup.inc.php)
+-----------------------------------------------------------------------------------------------------------------------------
+
+<?php
+    include_once 'include/dbh.inc.php';
+ 
+    $firs = $_POST['first'];
+    $last = $_POST['last'];
+    $email = $_POST['email'];
+    $pwd = $_POST['pwd'];
+
+     $sql = "INSERT INTO users (user_firstname,user_lastname,user_email,user_uid,user_pwd)VALUES('$firs','$last','$email','$pwd');";
+     $result = mysqli_query($conn, $sql);
+    //  $resultCheck = mysqli_num_rows($result);
+    //  if($resultCheck > 0){
+    //      while($row = mysqli_fetch_assoc($result)){
+    //          echo $row['user_uid'] ."<br>" ;
+
+    //      }
+    // } 
+  header ("Location:../index.php?signup=success");
+  
+  html(index.php)
+  -------------------------------------------------------------------------------------------------------------------------
+  
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="formBx">
+            <form action="include/signup.inc.php" method="POST">
+                <h2>Registation</h2>
+                <div class="inputBox">
+                    <input type="text" name="first" required="required">
+                    <span>Full Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="last" required="required">
+                    <span>Last Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="email" required="required">
+                    <span>Mail Address</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="pwd" required="required">
+                    <span>password</span>
+                </div>
+                <div class=" inputBox">
+                    <input type="submit" value="signup" name="submit">
+                </div>
+            </form>
+        </div>
+        <div class="imgBx">
+            <img src="girl.png" alt="">
+        </div>
+    </div>
+ 
+</body>
+</html>
+
+style.css()
+---------------------------------------------------------------------------------------------------------------------------
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #7ca5ec;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px;
+    height: 55vh;
+    background: #122647;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container .formBx {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .formBx form {
+    position: relative;
+    width: 100%;
+    padding: 0 0 0 75px;
+}
+
+.container .formBx form h2 {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.container .formBx form .inputBox {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.container .formBx form .inputBox:last-child {
+    margin-bottom: 0;
+}
+
+.container .formBx form .inputBox input,
+.container .formBx form .inputBox textarea {
+    position: relative;
+    background: transparent;
+    outline: none;
+    border: none;
+    width: 100%;
+    color: #ffffff;
+    padding-bottom: 10px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 300;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    resize: none;
+}
+
+.container .formBx form .inputBox textarea {
+    height: 100px;
+}
+
+.container .formBx form .inputBox input[type="submit"] {
+    background: #ffffff;
+    padding: 8px 10px;
+    margin-top: -10px;
+    width: 160px;
+    cursor: pointer;
+    background: #ff5064;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 40px;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.container .formBx form .inputBox input[type="submit"]:focus {
+    background: #1bfaad;
+    color: #111111;
+}
+
+.container .formBx form .inputBox span {
+    position: absolute;
+    left: 0;
+    font-size: 26px;
+    font-weight: 300;
+    display: inline-block;
+    pointer-events: none;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s;
+}
+
+.container .formBx form .inputBox input:focus~span,
+.container .formBx form .inputBox textarea:focus~span,
+.container .formBx form .inputBox input:valid~span,
+.container .formBx form .inputBox textarea:valid~span {
+    transform: translateY(-24px);
+    color: #1bfaad;
+    font-size: 14px;
+}
+
+.container .formBx form .inputBox input:focus,
+.container .formBx form .inputBox textarea:focus,
+.container .formBx form .inputBox input:valid,
+.container .formBx form .inputBox textarea:valid {
+    border-bottom-color: #ffffff;
+}
+

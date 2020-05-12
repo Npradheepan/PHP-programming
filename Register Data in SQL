@@ -180,7 +180,7 @@ body {
     width: 100%;
 }
 
-php programm file(signup.inc.php)
+php programm file(signup.inc.php) type =1
 ------------------
 <?php
 include_once 'dbh.inc.php';
@@ -194,7 +194,25 @@ $sql = "INSERT INTO signup(fitstname,lastname,emailid,pwd) VALUES('$firs','$last
 $result = mysqli_query($conn, $sql);
 
 header ("Location:../index.php?signup=success");
+----------------------------------
 
+ type =2
+ --------------------------------
+<?php
+include_once 'dbh.inc.php';
+
+
+$first = mysqli_real_escape_string ($conn, $_POST['first']);
+$last = mysqli_real_escape_string ($conn, $_POST['last']);
+$email = mysqli_real_escape_string ($conn, $_POST['email']);
+$pwd = mysqli_real_escape_string ($conn, $_POST['pwd']); 
+
+$sql = "INSERT INTO signup(fitstname,lastname,emailid,pwd) VALUES('$first','$last','$email','$pwd');";
+$result = mysqli_query($conn, $sql);
+
+header ("Location:../index.php?signup=success");
+
+---------------------------------------------------------------------------------------------------------------------------
 php server(dbh.inc.php)
 ------------------------
 <?php

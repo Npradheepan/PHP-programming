@@ -1,0 +1,256 @@
+index.php-1
+----------
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    </head>
+<body>
+    <div class="container">
+        <div class="formBx">
+            <form action="include/signup.inc.php" method="POST">
+                <h2>Registation</h2>
+                <div class="inputBox"> 
+                    <input type="text" name="first" required="required">
+                    <span>Full Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="last" required="required">
+                    <span>Last Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="email" required="required">
+                    <span>Mail Address</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="pwd" required="required">
+                    <span>password</span>
+                </div>
+                    <div class=" inputBox">
+                    <input type="submit" value="signup" name="submit">
+                </div>
+            </form>
+        </div>
+        <div class="imgBx">
+        <img src="hamburger_0.png" alt="">
+        </div>
+    </div>
+
+</body>
+</html>
+
+index.php-2
+------------
+<?php
+    include_once 'include/dbh.inc.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <?php
+     $data = "spor";
+     //creat the template
+     $sql = "SELECT * FROM signup WHERE lastname =?;";
+     
+     //Creat the a prepared stmtment 
+     $stmt = mysqli_stmt_init($conn);
+     
+     // Prepare the prepared stmtment
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        echo "SQL statement Failed";
+    }
+    else {
+        //Bind parameter to the placeholder
+        mysqli_stmt_bind_param($stmt,    "s", $data);
+
+        // Run parameters inside database
+        mysqli_stmt_execute($stmt); 
+        $result = mysqli_stmt_get_result($stmt);
+
+        while($row = mysqli_fetch_assoc($result)){
+            echo $row['lastname'] ."<br>" ;
+        }
+
+    }
+
+  ?>
+     
+</body>
+</html>
+
+css
+-----
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #a6c4f7;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px;
+    height: 55vh;
+    background: #122647;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+}
+
+.container .formBx {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .formBx form {
+    position: relative;
+    width: 100%;
+    padding: 0 0 0 75px;
+}
+
+.container .formBx form h2 {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.container .formBx form .inputBox {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.container .formBx form .inputBox:last-child {
+    margin-bottom: 0;
+}
+
+.container .formBx form .inputBox input,
+.container .formBx form .inputBox textarea {
+    position: relative;
+    background: transparent;
+    outline: none;
+    border: none;
+    width: 100%;
+    color: #ffffff;
+    padding-bottom: 10px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 300;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    resize: none;
+}
+
+.container .formBx form .inputBox textarea {
+    height: 100px;
+}
+
+.container .formBx form .inputBox input[type="submit"] {
+    background: #ffffff;
+    padding: 8px 10px;
+    margin-top: -10px;
+    width: 160px;
+    cursor: pointer;
+    background: #ff5064;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 40px;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.container .formBx form .inputBox input[type="submit"]:focus {
+    background: #1bfaad;
+    color: #111111;
+}
+
+.container .formBx form .inputBox span {
+    position: absolute;
+    left: 0;
+    font-size: 26px;
+    font-weight: 300;
+    display: inline-block;
+    pointer-events: none;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s;
+}
+
+.container .formBx form .inputBox input:focus~span,
+.container .formBx form .inputBox textarea:focus~span,
+.container .formBx form .inputBox input:valid~span,
+.container .formBx form .inputBox textarea:valid~span {
+    transform: translateY(-24px);
+    color: #1bfaad;
+    font-size: 14px;
+}
+
+.container .formBx form .inputBox input:focus,
+.container .formBx form .inputBox textarea:focus,
+.container .formBx form .inputBox input:valid,
+.container .formBx form .inputBox textarea:valid {
+    border-bottom-color: #ffffff;
+}
+
+.imgBx {
+    width: 40%;
+}
+
+.imgBx img {
+    width: 100%;
+}
+server connection
+------------------
+<?php
+$dbServername ="localhost";
+$dbUsername ="root";
+$dbPassword ="";
+$dbName ="registration";
+
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword,$dbName);
+
+server code
+------------
+<?php
+include_once 'dbh.inc.php';
+
+
+$first = mysqli_real_escape_string ($conn, $_POST['first']);
+$last = mysqli_real_escape_string ($conn, $_POST['last']);
+$email = mysqli_real_escape_string ($conn, $_POST['email']);
+$pwd = mysqli_real_escape_string ($conn, $_POST['pwd']); 
+
+$sql = "INSERT INTO signup(fitstname,lastname,emailid,pwd) VALUES(?,?,?,?);";
+$stmt = mysqli_stmt_init($conn);
+if(!mysqli_stmt_prepare($stmt, $sql)){
+echo"SQL error!";
+}else{
+    mysqli_stmt_bind_param($stmt,"ssss" ,$first,$last,$email,$pwd);
+    mysqli_stmt_execute($stmt);
+}
+
+header ("Location:../index.php?signup=success"); 

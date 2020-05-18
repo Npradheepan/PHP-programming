@@ -1,0 +1,40 @@
+index.php
+---------
+<?php
+include_once 'dbh.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <?php
+    $sql = "SELECT * FORM data";
+    $result = mysqli_query ($conn,$sql);
+    $datas = array();
+    if(mysqli_num_row($result)>0){
+        while($row = mysqli_fetch_assoc($result)){
+            $datas[]= $row;
+        }
+    }
+    ?>
+</body>
+</html>
+
+
+dbh.php
+------------------
+<?php
+$dbServername ="localhost";
+$dbUsername ="root";
+$dbPassword ="";
+$dbName ="visitors";
+
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword,$dbName);
+
+if(!$Conn){
+    die("Connection Failed: ".mysqli_connect_error());
+}

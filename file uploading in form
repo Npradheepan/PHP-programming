@@ -1,0 +1,194 @@
+index.php
+-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Document</title>
+</head>
+<body>
+<div class="container">
+    <div class="section section_01">
+        <h1>Signup!</h1>
+        <p>This Page to Testing to php tutorial!</p>
+    </div>
+    <div class="section section_2">
+       
+            <form action="includes/signup.inc.php" method="POST" enctype ="multipart/form-data">
+                <div class="fnamebox box">
+                    <label for="fname">First Name</label>
+                    <input type="text" name="fname">
+                </div>
+                <div class="lnamebox box">
+                    <label for="lname">Last Name</label>
+                    <input type="text" name="lname" required="required">
+                </div>
+                <div class="unamebox box">
+                    <label for="uname">User Name</label>
+                    <input type="text" name="uname" required="required">
+                </div>
+                <div class="emailbox box">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" required="required">
+                </div>
+                <div class="pwdbox box">
+                    <label for="pwd" >Password</label>
+                    <input type="text" name="pwd" required="required">
+                </div>
+                <button type="button" value="submit" name="submit"> Button</button> 
+                <div class="filebox box">
+                <input type="file" name="file" >
+                </div> 
+                
+                </form>
+            </div>
+        <div class="section section_3">
+        </div>
+    </div>
+</div>
+</body>
+</html>
+---------
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: Georgia;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: rgb(35, 157, 90)
+}
+
+.container {
+    width: 80%;
+    max-width: 1920px;
+    height: 80vh;
+    margin: 3% auto;
+    display: flex;
+    flex-direction: column;
+    background: rgb(150, 240, 192);
+    padding: 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.section {
+    width: 90%;
+    height: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.section_01 {
+    flex-direction: column;
+    margin-top: 0;
+    left: 20px;
+}
+
+.section_01 h1 {
+    font-family: Georgia;
+    margin-top: 0;
+    font-size: 4em;
+    font-weight: 500;
+    color: tomato;
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.section_01 p {
+    font-size: 2em;
+    font-family: cursive;
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.box {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form {
+    width: 100%;
+}
+
+form label {
+    font-size: 1.25em;
+    font-family: 'Times New Roman';
+    font-style: initial;
+    font-weight: 200;
+    padding: 10px;
+    text-align: left;
+}
+
+form input {
+    position: relative;
+    width: auto;
+    padding: 8px;
+    width: 60%;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    resize: none;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+form button {
+    background: #ffffff;
+    padding: 8px 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 160px;
+    cursor: pointer;
+    background: #0b1163;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 40px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+form button:focus {
+    background: #155929;
+    color: #2de419;
+}
+
+.section_3 {
+    width: 90%;
+    height: 12vh;
+    margin-bottom: 0;
+    padding: 60px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+input[name="file"] {
+    background: red;
+    margin: auto;
+    font-family: Georgia;
+    font-size: 18px;
+    text-align: center;
+}

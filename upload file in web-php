@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sing Up and Sign in</h1>
+            <p>This page to be practice to sign in/out in php</p>
+        </div>
+        <div class="section">
+        <form action="upload.php" method="POST" enctype="multipart/from-user"> 
+            <div class="box">
+                <label for="First">First Name</label>
+                <input type="text" name="first">
+            </div>
+            <div class="box">
+                <label for="last">Last Name</label>
+                <input type="text" name="last">
+            </div>
+            <div class="box">
+                <label for="userid">UserName</label>
+                <input type="text" user="userid">
+            </div>
+            <div class="box">
+                <label for="userid">Email</label>
+                <input type="email" name="email">
+            </div>
+            <div class="box">
+                <label for="pwd">Password</label>
+                <input type="password" name="pwd">
+            </div>
+            <div class="but">
+                <button type="submit" name="signin sign" >SingIn</button>
+                <button type="submit" name="signout sign">SingOut</button>
+            </div>
+            <div class="bt_upload">
+                <button type ="submit" name="submit">UPLOAD FILE</button>
+                <input type="file" name="file">
+            </div>
+        </form>
+        </div>
+    </div>
+
+ 
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------
+   * {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    font-family: Georgia, Times, 'Times New Roman', serif;
+    background: #ffffff;
+}
+
+.container {
+    width: 60%;
+    max-width: 1200px;
+    margin: 10% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 40px;
+}
+
+.header {
+    width: 100%;
+}
+
+.header h1 {
+    font: Georgia;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.header p {
+    font: Georgia;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.section {
+    position: relative;
+    width: 100%;
+    margin: 40px;
+}
+
+.section .box {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.box label {
+    font: Times New Roman;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.box input[type=text],
+.box input[type=email],
+.box input[type=password] {
+    width: 60%;
+    padding: 8px;
+}
+
+.but {
+    width: 50%;
+    margin: 10% auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.but button[type=submit] {
+    padding: 10px 60px 10px 60px;
+    margin: 10px;
+    outline: none;
+    border-radius: 40px;
+    background: #868383;
+    display: flex;
+    font-size: 14px;
+    color: azure;
+}
+
+.bt_upload {
+    width: 100%;
+    margin: 2% auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bt_upload button[type=submit] {
+    padding: 10px 60px 10px 60px;
+    margin: 10px;
+    outline: none;
+    border-radius: 40px;
+    background: #4c1c1c;
+    display: flex;
+    font-size: 14px;
+    color: azure;
+}
+
+.bt_upload input[type=file] {
+    width: 70%;
+    padding: 8px;
+    background: transparent;
+    border: tomato solid 1px;
+}
+
+[name=file] {
+    font-size: 20px;
+    padding: 10px;
+    color: teal;
+}                
+---------------------------------------------------------------------------------------------------------------------------
+upload.php
+<?php
+ if(isset($_POST['submit'])){
+     $file = $_FILES['file'];
+     $fileName = $_FILES['file']['name'];
+     $fileTmpName = $_FILES['file']['tmp_name'];//Temprary location to the file
+     $fileSize = $_FILES['file']['size'];
+     $fileError = $_FILES['file']['error'];
+     $fileType = $_FILES['file']['type'];
+    //Extention the Array ex =>jpg/png
+     $fileExt = explode('.',$fileName);
+     $fileActualExt = strtolower(end($fileExt)); 
+     $allowed = array('jpg','jpeg','png');
+
+if(in_array($fileActualExt, $allowed)){
+if($fileError === 0){
+if($fileSize < 1000000){
+    $fileNameNew = uniqid ('',true).".".$fileActualExt;
+    $fileDestination = 'uploads/'.$fileNameNew;   
+    move_uploaded_file($fileTmpName,$fileDestination);
+    header("Location: index.php?uploadsuccess");
+} else{
+    echo "Your file is so big capacity!";
+}
+}else { 
+    echo "There was an error uploading your file!";
+}
+    }else {
+        echo "You cannot upload file of this type!";
+    }
+ } 
+                    

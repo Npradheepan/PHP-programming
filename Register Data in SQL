@@ -1,13 +1,14 @@
 sql coding
 ------------
-CREATE TABLE signup(
-    id int (11) NOT null PRIMARY AUTO_INCREMENT,
-    firstname varchar(128) NOT null,
-    lastname varchar (128) NOT null,
-    username varchar(255) NOT null,
-    email varchar(255) COLLATE utf8_unicode_ci NOT null,
-    password varchar (255) COLLATE utf8_unicode_ci NOT null
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `signup` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ---------------------------------------------------------------------------------------------------------------------------
 html(index.php)
 --------

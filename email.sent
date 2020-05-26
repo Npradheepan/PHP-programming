@@ -1,0 +1,125 @@
+index.php
+-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+    <h2 class="paras_head">SENT E-MAIL</h2>
+    <div class="wrapper">
+    
+    <form class ="email_form" action="contactform.php" method="POSTs">
+        <input type="text" name="name" placeholder="Full name">
+        <input type="text" name="mail" placeholder="your e-mail">
+        <input type="text" name="subject" placeholder="Subject">
+        <textarea name="message" id=""   placeholder="message"></textarea>
+        <button type="submit" name="submit">SENT EMAIL</button>
+    </form>
+    </div>
+    </main>     
+</body>
+</html>
+
+style.css
+------------
+body {
+    padding: 0;
+    margin: 0;
+    background: #000000;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+main {
+    width: 80%;
+    padding: 40px;
+    min-height: 80vh;
+    background: #323131;
+    margin: 40px auto;
+}
+
+.paras_head {
+    width: 100%;
+    font-size: 2.25rem;
+    font-weight: 600;
+    display: flex;
+    margin: 20px auto;
+    color: chocolate;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 50%;
+    margin: 60px auto;
+    display: flex;
+}
+
+.email_form {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    color: #000000;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+input[name="name"],
+input[name="mail"],
+input[name="subject"] {
+    width: 100%;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px;
+    background: darkgray;
+    border: none;
+}
+
+textarea[name="message"] {
+    width: 100%;
+    height: 80px;
+    padding: 20px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    resize: none;
+    border: none;
+    background: rgb(84, 101, 109);
+}
+
+button[name="submit"] {
+    width: 20rem;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 20px;
+    padding: 10px;
+    letter-spacing: 2px;
+    color: rgb(255, 255, 255);
+    margin: 10px;
+    background: dodgerblue;
+    border: greenyellow;
+}
+
+contactform.php
+---------------
+<?php
+if(isset($post['submit'])){
+    $name = $_POST['name'];
+    $subject = $_POST['subject'];
+    $mailForm = $_POST['mail'];
+    $message = $_POST['massage'];
+
+    $mailTo = "pn@kps-kommunikation.de";
+    $headers = "Form: ".$mailForm;
+    $txt = "You have received an email form ".$name.".\n\n ".$message;
+
+    mail($mailTo, $subject, $txt, $headers);
+    header("Location: index.php?mailsend");
+
+}
+?>

@@ -1,0 +1,15 @@
+<?php
+
+if(isset($_POST['submit'])){
+    echo"<pre>", print_r($_POST),"<pre>";
+    echo"<pre>", print_r($_FILES),"<pre>";
+    echo"<pre>", print_r($_FILES['file']['name']),"<pre>";
+    die();
+}
+
+<?php if(!empty($msg)); ?>
+    <div class="alert <?php echo $css_class;?>">
+    <?php echo $msg;
+    </div>
+
+    <?php endif; ?>

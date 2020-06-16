@@ -1,0 +1,55 @@
+<VirtualHost *:8080>
+    ServerAdmin webmaster@deep-upload.test
+    DocumentRoot "/Users/pradheepan/.bitnami/stackman/machines/xampp/volumes/root/htdocs/proEx_48/upload.php"
+    ServerName deep-upload.test
+    ServerAlias deep-upload.test
+    ErrorLog "logs/deep-upload.test-error_log"
+    CustomLog "logs/deep-upload.test-access_log" common
+    <Directory "/Users/pradheepan/.bitnami/stackman/machines/xampp/volumes/root/htdocs/proEx_48/upload.php">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+</VirtualHost>
+------------------------------------------------
+Alias /adminer "/Applications/MAMP/bin/adminer"
+
+	<Directory "/Applications/MAMP/bin/adminer">
+		DirectoryIndex adminer.php
+		Options Indexes MultiViews
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+	</Directory>
+  --------------------------------
+  <VirtualHost *:8888>^
+    ServerAdmin pn@kps-kommunikation.de
+    DocumentRoot "/Applications/MAMP/htdocs/site-1"
+    ServerName site-2.test
+    ServerAlias www.site-2.test
+    ErrorLog "logs/site-2.test-error_log"
+    CustomLog "logs/site-2.test-access_log" common
+</VirtualHost>
+----------------
+conf-host in xampp
+------------------
+User daemon
+Group daemon
+</IfModule>
+-------------------
+<VirtualHost *:8080>
+    ServerAdmin  pn@kps-kommunikation.de
+    DocumentRoot "/opt/lampp/docs/dummy-host.example.com"
+    ServerName proEx_48.test
+    ServerAlias www.proEx_48.test
+    ErrorLog "logs/proEx_48.test-error_log"
+    CustomLog "logs/proEx_48.test-access_log" common
+</VirtualHost>
+
+
+
+
+
+

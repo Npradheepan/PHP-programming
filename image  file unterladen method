@@ -1,0 +1,139 @@
+text.proccess.php
+------------------
+<?php
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
+$checkbox1 = $_POST['opt'];
+$chk=""; 
+foreach($checkbox1 as $chk1) 
+{ 
+$chk.= $chk1.","; 
+} 
+$msg = '';
+if($_SERVER['REQUEST_METHOD']=='POST'){
+$image = $_FILES['image']['tmp_name'];
+$img = file_get_contents($image);
+$file = rand(1000,100000)."-".$_FILES['file']['name'];
+$file_loc = $_FILES['file']['tmp_name'];
+$file_size = $_FILES['file']['size'];
+$file_type = $_FILES['file']['type'];
+$folder="upload/";
+// new file size in KB
+$new_size = $file_size/1024;
+// new file size in KB
+// make file name in lower case
+$new_file_name = strtolower($file);
+// make file name in lower case
+$final_file=str_replace(' ','-',$new_file_name);
+if(move_uploaded_file($file_loc,$folder.$final_file))
+{
+$con = mysqli_connect('127.0.0.1:3306','root','','info') or die('Unable To connect');
+$sql = "insert into single (image,firstname,lastname,opt,file,type,size) values (?,'$firstname','$lastname','$chk','$final_file','$file_type','$new_size')";
+$stmt = mysqli_prepare($con,$sql);
+mysqli_stmt_bind_param($stmt, "s",$img);
+mysqli_stmt_execute($stmt);
+$check = mysqli_stmt_affected_rows($stmt);
+}
+if($check==1){
+header('Location: success.php');
+}else{
+echo 'Error uploading Data';
+}
+mysqli_close($con);
+}
+?>
+success.php
+------------
+<!DOCTYPE html>
+<html>
+<title>Sign In</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-navbar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+<body class="w3-green">
+<div class="w3-row">
+<div class="w3-container w3-padding-128">
+
+<div class="w3-container w3-third w3-padding">
+</div>
+<div class="w3-container w3-third w3-border w3-white w3-text-teal w3-padding-64">
+    
+<button class="w3-btn w3-green"><i class="fa fa-home"></i> HOME</button>
+<br>
+<h3 class="w3-center"><strong>Data Added Successfully</strong></h3>
+<br>
+</div>
+<div class="w3-container w3-third">
+</div>
+</div>
+</div>
+</body>
+
+  
+  <!-- Navbar on small screens -->
+  
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+   </form> 
+</body>
+</html>
+
+home.php
+--------
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signup!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="w3-green">
+<div class="w3-row w3-padding-128">
+<div class="w3-container">
+<div class="w3-container w3-quarter">
+</div>
+   <div class="w3-container w3-half w3-white">
+<h2>Sign up</h2>
+<hr class="w3-clear">
+<form class="w3-container" method="post" action="test-process.php" enctype="multipart/form-data">
+  <p><input class="w3-input w3-border" type="text" placeholder="First Name"  name="firstname"></p>
+  <p><input class="w3-input w3-border" type="text" placeholder="Last Name"  name="lastname"></p>
+  <input type="checkbox" name="opt[]" value="A">:A <br>
+<input type="checkbox" name="opt[]" value="B">:B <br>
+<input type="checkbox" name="opt[]" value="C">:C<br><br> 
+<label>Upload your image</label>
+  <p><input type="file" name="image"></p>
+<label>Upload your file</label>
+
+<p><input type="file" name="file" /> </p>
+  <p class="w3-center"><button class="w3-btn w3-green">Sign Up</button></p>
+   </form>
+<br>
+</div>
+<div class="w3-quarter">
+</div>
+</body>
+</html> 
+
+
+

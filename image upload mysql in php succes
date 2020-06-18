@@ -1,0 +1,53 @@
+<?php
+session_start();
+$conn= mysqli_connect("localhost","root","","visitors");
+if($conn->connect_errno) {
+    throw new Exception("Connection Failed:", $conn->connect_errno);
+}else{
+    if(isset($_POST['submit'])){
+        $result ="";
+        $image='uploads/'.$_FILES['image']['name'];
+        $image = mysqli_real_escape_string($conn,$image);
+
+        if(preg_match("!image!", $_FILES['image']['type'])){
+            if(copy($_FILES['image']['tmp_name'],$image)){
+                $sql ="INSERT INTO image(imageName)VALUES('$image')";
+                if(mysqli_query($conn, $sql)){
+                    $result = "Image Upload!";
+                }else {
+                    $result ="Image Upload Failed!";
+                }
+               
+            }else {
+                $result ="Image Upload Failed!";
+            }
+        }
+        else $result =" only JPG, png, ...";
+    }
+}
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>file_uploads</title>
+</head>
+<body>
+<div>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <button type="submit" name="submit">UPLOAD</button>
+    </form>
+    <h2><?= $result ?></h2>
+</div>
+<div class="preimg">
+    <img src="<?= $image ?>" alt="">
+</div>
+</body>
+</html> 
+ 
+
+ 

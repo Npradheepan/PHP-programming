@@ -1,0 +1,60 @@
+<?php
+$conn= mysqli_connect("localhost","root","","imgupload");
+if($conn->connect_errno) {
+    throw new Exception("Connection Failed:", $conn->connect_errno);
+}   
+echo "The Connection is Successfully  Connected!";
+
+session_start();
+if(isset($_POST['submit'])){
+    $file =$_FILES['file'];
+  
+    $fileName = $_FILES['file']['name'];
+    $fileTmpName = $_FILES['file']['tmp_name'];
+    $fileSize = $_FILES['file']['size'];
+    $fileError = $_FILES['file']['error'];
+    $fileType = $_FILES['file']['type'];
+
+    $fileExt = explode ('.',$fileName); 
+    $fileActualExt = strtolower(end($fileExt));
+
+    $allowed =  array('jpg','jpeg','png','pdf');
+
+    if(in_array($fileActualExt, $allowed)){
+        if($fileError === 0){
+            if($fileSize <1000000){
+                $fileNameNew ="image".".".$fileActualExt ;
+                $fileDestination ='uploads/'.$fileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+                $sql = "INSERT INTO image(imageName) VALUES('$file');";
+                $result =mysqli_query($conn, $sql);
+                $res = array();
+                if ($result) {
+                    $res['check'] = true;
+                    $res['message'] = 'Data Updated..';
+                
+                    // /$res['id'] = mysqli_insert_id($conn);
+                }
+                else {
+                    $res['check'] = false;
+                    $res['message'] = 'There was an Errorr!';
+                
+                    // /$res['message'] = $emailErr;
+                }
+                
+                header('Content-Type: application/json');
+                echo json_encode($res);
+                 //header("Location:/index.php?uploadsuccess!");
+            }else{
+                echo" there Was you Uploads file bigger than 100MB!";
+            }
+
+        }else {
+            echo"There is Error Please check the file!";
+        }
+
+    }else{
+        echo"This Type file not Allowed";
+    }
+   
+}

@@ -1,0 +1,17 @@
+<?php
+ $sql = "SELECT * FORM Table // WHERE firstName = ----- ;";
+ $result = mysqli_Query($conn, $sql);
+ $resultCheck = mysqli_num_rows($result);
+
+ if($resultCheck > 0){
+    while ($row = mysqli_fetch_assoc($result)) {
+        <tr>
+         echo $row['Element(id)']."<br>";
+         echo $row["first_name"]; 
+         echo $row["last_name"]; 
+         echo $row["city_name"]; 
+         echo $row["email"]; 
+        </tr>
+     } 
+ }
+?>

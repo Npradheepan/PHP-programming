@@ -145,3 +145,58 @@ Email:<br>
 </form>
 </body>
 </html>
+
+Delete.php
+----------
+<?php
+include_once 'db.php';
+$result = mysqli_query($conn,"SELECT * FROM customer");
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<title>Delete employee data</title>
+</head>
+<body>
+<table>
+	<tr>
+	<td>Employee Id</td>
+	<td>First Name</td>
+	<td>Last Name</td>
+	<td>City</td>
+	<td>Email id</td>
+	<td>Action</td>
+	</tr>
+	<?php
+	$i=0;
+	while($row = mysqli_fetch_array($result)) {
+	?>
+	<tr class="<?php if(isset($classname)) echo $classname;?>">
+	<td><?php echo $row["id"]; ?></td>
+	<td><?php echo $row["firstname"]; ?></td>
+	<td><?php echo $row["lastname"]; ?></td>
+	<td><?php echo $row["city"]; ?></td>
+	<td><?php echo $row["email"]; ?></td>
+	<td><a href="delete-process.php?id=<?php echo $row["id"]; ?>">Delete</a></td>
+	</tr>
+	<?php
+	$i++;
+	}
+	?>
+</table>
+</body>
+</html>
+Delete-Process.php
+--------------------
+<?php
+include_once 'db.php';
+$sql = "DELETE FROM customer WHERE id='" . $_GET["id"] . "'";
+if (mysqli_query($conn, $sql)) {
+    echo "Record deleted successfully";
+} else {
+    echo "Error deleting record: " . mysqli_error($conn);
+}
+mysqli_close($conn);
+?>

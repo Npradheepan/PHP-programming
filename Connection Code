@@ -1,0 +1,12 @@
+<?php
+$dbServerName ='localhost';
+$dbUserName ='Root';
+$dbPassword ='';
+$dbName ='Management';
+
+$conn = mysqli_Connect('$dbServerName','$dbUserName','$dbPassword','$dbName');
+if($conn->connect_error){
+    throw Exception("Connection is Failed :", $conn->connect_error);
+}else{
+    echo"Server SuccessFully Connected...!";
+}

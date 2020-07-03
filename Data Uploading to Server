@@ -1,0 +1,58 @@
+db.php
+------
+<?php
+$servername='localhost';
+$username='root';
+$password='';
+$dbname = "Employee";
+$conn=mysqli_connect($servername,$username,$password,"$dbname");
+if(!$conn){
+   die('Could not Connect My Sql:' .mysql_error());
+}
+
+?>
+index.php
+---------
+<!DOCTYPE html>
+<html>
+  <body>
+	<form method="post" action="upload.php">
+		First name:<br>
+		<input type="text" name="first_name">
+		<br>
+		Last name:<br>
+		<input type="text" name="last_name">
+		<br>
+		City name:<br>
+		<input type="text" name="city_name">
+		<br>
+		Email Id:<br>
+		<input type="email" name="email">
+		<br><br>
+		<input type="submit" name="save" value="submit">
+	</form>
+  </body>
+</html>
+
+upload.php
+----------
+<?php
+include_once 'db.php';
+if(isset($_POST['save']))
+{    
+     $first_name = $_POST['first_name'];
+     $last_name = $_POST['last_name'];  
+     $city_name = $_POST['city_name'];
+     $email = $_POST['email'];
+     $sql = "INSERT INTO customer(firstname,lastname,city,email)
+     VALUES ('$first_name','$last_name','$city_name','$email')";
+     if (mysqli_query($conn, $sql)) {
+        echo "New record created successfully !";
+        header ("Location:index.php?signup=success");
+     } else {
+        echo "Error: " . $sql . " " . mysqli_error($conn);
+     } 
+     mysqli_close($conn);
+}
+?>
+

@@ -1,0 +1,147 @@
+connection
+----------
+<?php
+$servername='localhost';
+$username='root';
+$password='';
+$dbname = "Employee";
+$conn=mysqli_connect($servername,$username,$password,$dbname);
+if(!$conn){
+   die('Could not Connect My Sql:' .mysql_error());
+}
+
+?>
+
+index.php
+----------
+<?php
+include_once 'db.php';
+$result = mysqli_query($conn,"SELECT * FROM customer");
+?>
+<!DOCTYPE html>
+<html>
+ <head>
+ <link rel="stylesheet" href="style.css">
+ <title> Retrive data</title>
+ </head>
+<body>
+<?php
+if (mysqli_num_rows($result) > 0) {
+?>
+  <table>
+  
+  <tr>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>City</td>
+    <td>Email id</td>
+  </tr>
+<?php
+$i=0;
+while($row = mysqli_fetch_array($result)) {
+?>
+<tr>
+    <td><?php echo $row["firstname"]; ?></td>
+    <td><?php echo $row["lastname"]; ?></td>
+    <td><?php echo $row["city"]; ?></td>
+    <td><?php echo $row["email"]; ?></td>
+</tr>
+<?php
+$i++;
+}
+?>
+</table>
+ <?php
+}
+else{
+    echo "No result found";
+}
+?>
+ </body>
+</html>
+
+list.php
+--------
+<?php
+include_once 'db.php';
+$result = mysqli_query($conn,"SELECT * FROM customer");
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<title>Add Employee Dates</title>
+</head>
+<body>
+<table>
+<tr>
+<td>Employee Id</td>
+<td>First Name</td>
+<td>Last Name</td>
+<td>City</td>
+<td>Email id</td>
+<td>Action</td>
+</tr>
+<?php
+$i=0;
+while($row = mysqli_fetch_array($result)) {
+if($i%2==0)
+$classname="even";
+else
+$classname="odd";
+?>
+<tr class="<?php if(isset($classname)) echo $classname;?>">
+<td><?php echo $row["id"]; ?></td>
+<td><?php echo $row["firstname"]; ?></td>
+<td><?php echo $row["lastname"]; ?></td>
+<td><?php echo $row["city"]; ?></td>
+<td><?php echo $row["email"]; ?></td>
+<td><a href="update-process.php?id=<?php echo $row["id"]; ?>">Update</a></td>
+</tr>
+<?php
+$i++;
+}
+?>
+</table>
+</body>
+</html>
+
+update.php
+---------
+<?php
+include_once 'db.php';
+if(count($_POST)>0) {
+mysqli_query($conn,"UPDATE customer SET id='".$_POST['id']."',firstname='".$_POST['firstname']."', lastname='".$_POST['lastname']."',city='".$_POST['city']."',email='".$_POST['email']."' WHERE id='".$_POST['id']."'");
+$message = "Record Modified Successfully";
+}
+$result = mysqli_query($conn,"SELECT * FROM customer WHERE id ='".$_GET['id']."'");
+$row = mysqli_fetch_array($result);
+?>
+<html>
+<head>
+<title>Update Employee Data</title>
+</head>
+<body>
+<form name="frmUser" method="POST" action="">
+<div><?php if(isset($message)) { echo $message; } ?>
+</div>
+<div style="padding-bottom:5px;">
+<a href="retrieve.php">Employee List</a>
+</div>
+First Name: <br>
+<input type="text" name="first_name" class="txtField" value="<?php echo $row['firstname']; ?>">
+<br>
+Last Name :<br>
+<input type="text" name="last_name" class="txtField" value="<?php echo $row['lastname']; ?>">
+<br>
+City:<br>
+<input type="text" name="city_name" class="txtField" value="<?php echo $row['city']; ?>">
+<br>
+Email:<br>
+<input type="text" name="email" class="txtField" value="<?php echo $row['email']; ?>">
+<br>
+<input type="submit" name="submit" value="Submit" class="buttom">
+
+</form>
+</body>
+</html>

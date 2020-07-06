@@ -1,0 +1,95 @@
+<?php
+$dbServername ="localhost";
+$dbUsername ="root";
+$dbPassword ="";
+$dbName ="visitors";
+
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword,$dbName);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+  echo "Connected successfully";
+signup
+------
+  <?php
+include_once 'dbh.inc.php';
+
+$firs = mysqli_real_escape_string($conn,$_POST['first']);
+$last = mysqli_real_escape_string($conn,$_POST['last']);
+$email = mysqli_real_escape_string($conn,$_POST['email']);
+$pwd = mysqli_real_escape_string($conn,$_POST['pwd']);
+
+$sql = "INSERT INTO signup(firstname,lastname,email,pwd)
+ VALUES(?,?,?,?);";
+ $stmt = mysqli_stmt_init($conn);
+ if(!mysqli_stmt_prepare($stmt, $sql)){
+     echo "SQL error";
+ }else{
+     mysqli_stmt_bind_param($stmt,"ssss",$firs,$last,$email,$pwd);
+     mysqli_stmt_execute($stmt);
+ 
+    }
+header ("Location:../index.php?signup=success");    
+
+index2.php
+----------
+<?php 
+//
+
+$sql = "SELECT * From signup WHERE id = '?';";
+$stmt = mysqli_stmt_init($conn);
+if(!mysqli_stmt_prepare($stmt,$sql)){
+    echo"SQL statement failed";
+}else{
+    mysqli_stmt_bind_param($stmt,"s");
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    while($row =mysqli_fetch_array($result)){
+        echo $row['id']."<br>";
+    }
+}
+?>
+
+index.php
+----------
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    </head>
+<body>
+    <div class="container">
+        <div class="formBx">
+            <form action="include/signup.inc.php" method="POST">
+                <h2>Registation</h2>
+                <div class="inputBox">
+                    <input type="text" name="first" required="required">
+                    <span>First Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="last" required="required">
+                    <span>Last Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="email" required="required">
+                    <span>Mail Address</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="pwd" required="required">
+                    <span>password</span>
+                </div>
+                    <div class=" inputBox">
+                    <input type="submit" value="signup" name="submit">
+                </div>
+            </form>
+        </div>
+        <div class="imgBx">
+        <img src="img_2.png" alt="">
+        </div>
+    </div>
+
+</body>
+</html>

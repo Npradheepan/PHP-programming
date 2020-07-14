@@ -1,0 +1,159 @@
+db.php
+sql.connect
+-----------
+CREATE TABLE article (
+a-id int (11)NOT null PRIMARY KEY AUTO_INCREAMENT,
+a_title varchar(255) NOT null,
+a_text text NOT null,
+a_author varchar (256) NOT null,
+a_date datetime NOT null
+);
+
+
+ISERT INTO articale(a_title, a_text, a_author, a_date)
+VALUE ('50 Ggreat summer recipes', 'There are many you can create for the summer which involves grilling, bollong, frying and toassting.', 'Admin','2017-11-03 12:27:23');
+
+index.php
+---------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.csss">
+    <title>Document</title>
+</head>
+<body>
+    <form action="search.php" methode="POST">
+        <input type="text" name="search" placeholder="Search">
+        <button type="submit" name="submit_search">Search</button>
+    </form>
+    <h1>Font Page </h1>
+    <h2>All articales:</h2>
+    <div class="articles-container">
+    <?php
+    $sql = "SELECT * FROM articles";
+    $result = mysqli_query($conn,$sql);
+    $queryresult = mysqli_num_rows($result);
+
+    echo"There are " .$queryresult."results";
+    if($queryResults>0){
+        while($row= mysqli_fetch_array($result)){
+            echo" <div class='article_box'>
+            <h3>".$row['a_title']."</h3>
+            <p>".$row['a_text']."</p>
+            <p>".$row['a_date']."</p>
+            <p>".$row['a_author']."</p> 
+            </div>";
+        }
+    }
+    
+    ?>
+    </div>
+</body>
+</html>
+
+search.php
+---------
+<?php
+include_once 'db.php';
+?>
+<h1>Search page</h1>
+<div class="article-container">
+<?php
+if(isset($_POST['submi6-sear'])){
+$search = mysqli_real_escape_string($conn,$_POST['search']);
+$sql = "SELECT * FORM article WHERE a_title LIKE '%search%'OR a_text LIKE '%search%'OR a_author LIKE '%search%'OR a_date LIKE '%search%'";
+$result = mysql_query ($conn, $sql);
+$queryResult = mysqli_num_rows($result);
+
+if($queryResult >0){
+    while($row = mysqli_fetch_array($result)){
+        echo" <a hre='article.php? title=".$row['a_title']."& date= ".$row['a_date']."'><div class = 'articale_box'>
+            <h3>".$row['a_title']."</h3>
+            <p>".$row['a_text']."</p>
+            <p>".$row['a_date']."</p>
+            <p>".$row['a_author']."</p> 
+        </div><a>";
+    }
+}else{
+    echo"There are no results Matching Your Search!";
+}
+
+}
+
+ ?>
+</div>
+
+Article.php
+----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.csss">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Article  Page </h1>
+    <div class="articles-container">
+    <?php
+
+    $title = mysqli_real_escape_string($conn,$_GET['title']);
+    $date = mysqli_real_escape_string($conn,$_GET['date']);
+
+
+    $sql = "SELECT * FROM articles WHERE a_title = 'title' AND a_date ='date'";
+    $result = mysqli_query($conn,$sql);
+    $queryresult = mysqli_num_rows($result);
+
+    echo"There are " .$queryresult."results";
+    if($queryResults>0){
+        while($row= mysqli_fetch_array($result)){
+            echo" <div class='article_box'>
+            <h3>".$row['a_title']."</h3>
+            <p>".$row['a_text']."</p>
+            <p>".$row['a_date']."</p>
+            <p>".$row['a_author']."</p> 
+            </div>";
+        }
+    }
+    
+    ?>
+    </div>
+</body>
+</html>
+
+style.css
+---------
+
+body {
+    background: #f3f3f3;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.article-cotainer {
+    width: 900px;
+    background-color: #ffffff;
+    padding: 30px;
+}
+
+.article-box {
+    padding-bottom: 30px;
+    width: 100%;
+}
+
+input {
+    padding: 0px 20px;
+    width: 300px;
+    height: 40px;
+    font-size: 22px;
+}
+
+button {
+    width: 100px;
+    height: 44px;
+    font-size: 22px;
+}

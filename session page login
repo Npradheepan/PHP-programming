@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=scr, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-2.2.4.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="loginstyle.css">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login Form </title>
+</head>
+<body>
+<div class="header">  
+    <nav class="navbar navbar-dark bg-secondary">
+    <img src="images/Star-logo.png" width="100" height="100" class="left-block m-0" alt="logo">
+        <a class="nav-brand left-block text-uppercase txt-responsive m-0" href="#">Logo</a>           
+        </nav>
+     </div>
+     <!--body login  to-->
+        <div class="container landing">
+            <div class="col md12 m6 offset-m3">
+            <div class="row">
+                <div class="signup-box">
+                <form class="signup animated bounceIn" action="process.php " method="POST">
+                <h1 class="app-title">Login</h1> 
+                    <h2>SignIn to watch your Owen Pages... </h2>                   
+                    
+                    <div class="section">
+                    <input type="email" name="email" placeholder="Email" />
+                    <input type="text" name="name" placeholder="Fullname" />
+                    <input type="text" name="username" placeholder="Username" />
+                    <input type="password" name="password" placeholder="Password" />
+                    <button class="noselect" name="login"></button>
+                    </div>
+                </form>
+                <div class="Val-mg">
+                    <?php 
+                    if(@$_GET['Empty']== true){
+                    ?>
+
+                    <div class="alert light text-danger text-center m-3"><?php echo $_GET['Empty']?></div>
+                    <?php   
+                    }
+                    ?>
+                    <?php 
+                    if(@$_GET['Invalid']== true){
+                    ?>
+                    
+                    <div class="alert light text-danger text-center m-3"><?php echo $_GET['Invalid']?></div>
+                    <?php   
+                    }
+                    ?>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+</body>
+</html>
+Connection.php
+--------------
+<?php
+$dbServername ="localhost";
+$dbUsername ="root";
+$dbPassword ="";
+$dbName ="visitors";
+
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword,$dbName);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+  echo "Connected successfully";    
+Process.php
+-----------
+<?php
+include_once 'dbh.php';
+session_start();
+
+ 
+ if(isset($_POST['login'])){
+     if(empty($_POST['email']) || empty($_POST['name'])||empty($_POST['username'])||empty($_POST['password'])){
+         header("location:index.php? empty = Please Fill all");
+     }
+ }else {
+     $query = "select * from visitors where email = '".$_POST['email']."'and name = '".$_POST['name']."'and username = '".$_POST['username']."'and password = '".$_POST['password']."'";
+     $result = mysqli_query($conn,$query);
+     if(mysqli_fetch_assoc($result)){
+         $_SESSION['name'] == $_POST['name']; 
+         header("location:Home.php");
+     }else {
+         header("location:index.php? Invalid=please Enter The Correct Username and password!");
+     }
+ }
+
+?>
+Home.php
+---------
+<php 
+session_start();
+echo ' welcome' .$_SESSION['name'];
+?>
